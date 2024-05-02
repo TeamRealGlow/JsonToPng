@@ -10,7 +10,8 @@ class_name = ["skin","eye","brow","lip","mouth","nose","hair","ear"]
 class_mapping = [(255, 0, 0),(255, 0, 255),(51, 255, 255),(255, 255, 0),(0, 255, 0),(0, 153, 0),(60, 0, 255),(255, 204, 204)]
 class_mapping = [color[::-1] for color in class_mapping]
 
-paths = glob.glob("img/*.json")
+paths = glob.glob("image/*.json")
+newpaths = "org-label"
 for item in paths:
     with open(item, 'r') as f:
         data = json.load(f)
@@ -22,7 +23,7 @@ for item in paths:
                 face_featuers[jsondata["label"]].append(jsondata["points"])
         w = data["imageWidth"]
         h = data["imageHeight"]
-        canvers = np.zeros((w, h,3), dtype="uint8")
+        canvers = np.zeros((h, w,3), dtype="uint8")
 
         for idx,featuer_name in enumerate(class_name):
             if len(face_featuers[featuer_name]) == 0:
@@ -37,5 +38,6 @@ for item in paths:
         filename = dir[-1]
         filename,_ = os.path.splitext(filename)
         newfilename = os.path.join(dir[0],filename)
-        cv2.imwrite(newfilename+".png",canvers)
+        cv2.imwrite(os.path.join(newfilename+".png"),canvers)
+
 
