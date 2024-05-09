@@ -32,6 +32,7 @@ color_map = {
 #폴더마다 순회하며 가져옴
 for item in dir:
     files = glob.glob(item+'/*')
+
     for initem in files:
         filename = os.path.basename(initem)
         file = filename.split("_")
